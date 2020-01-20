@@ -1,10 +1,17 @@
 <template>
-    
+    <div @dragstart.prevent="onDrag">
+        <slot/>
+    </div>
 </template>
 
 <script>
     export default {
-        name: "AppDrag"
+        name: "AppDrag",
+        methods: {
+            onDrag(e) {
+                
+            }
+        }
     }
 </script>
 
