@@ -15,7 +15,7 @@
             </div>
         </div>
 
-        <div class="task-bg" v-if="isTaskOpen" @click.self="close()">
+        <div class="task-bg" v-if="state.isTaskOpen" @click.self="close()">
             <router-view/>
         </div>
     </div>
@@ -30,18 +30,16 @@
         components: {
             BoardColumn
         },
-        setup() {
+        setup(props, context) {
             const state = reactive({
                 newColumnName: '',
+                isTaskOpen: computed(() => context.root.$route.name === 'task')
             })
 
             return {state}
         },
         computed: {
             ...mapState(['board']),
-            isTaskOpen() {
-                return this.$route.name === 'task'
-            }
         },
         methods: {
             close() {
