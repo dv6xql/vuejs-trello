@@ -10,20 +10,19 @@
             />
 
             <div class="column flex">
-                <input type="text" class="p-2 mr-2 flex-grow" placeholder="New Column Name" v-model="state.newColumnName"
+                <input type="text" class="p-2 mr-2 flex-grow" placeholder="New Column Name" v-model="newColumnName"
                        @keyup.enter="createColumn()">
             </div>
         </div>
 
-        <div class="task-bg" v-if="state.isTaskOpen" @click.self="close()">
+        <div class="task-bg" v-if="isTaskOpen" @click.self="close()">
             <router-view/>
         </div>
     </div>
 </template>
 
 <script>
-    import {reactive, computed} from '@vue/composition-api'
-    import {mapState} from 'vuex'
+    import {ref, computed} from '@vue/composition-api'
     import BoardColumn from "../components/BoardColumn"
 
     export default {
@@ -31,10 +30,9 @@
             BoardColumn
         },
         setup(props, context) {
-            const state = reactive({
-                newColumnName: '',
-                isTaskOpen: computed(() => context.root.$route.name === 'task')
-            })
+            const newColumnName = ref('')
+            const isTaskOpen = computed(() => context.root.$route.name === 'task')
+            const board = computed(() => context.root.$store.state.board)
 
             function close() {
                 context.root.$router.push({name: 'board'})
@@ -42,16 +40,19 @@
 
             function createColumn() {
                 context.root.$store.commit('CREATE_COLUMN', {
-                    name: state.newColumnName
+                    name: newColumnName.value
                 })
 
-                state.newColumnName = ''
+                newColumnName.value = ''
             }
 
-            return {state, close, createColumn}
-        },
-        computed: {
-            ...mapState(['board']),
+            return {
+                newColumnName,
+                isTaskOpen,
+                board,
+                close,
+                createColumn
+            }
         },
     }
 </script>
