@@ -33,12 +33,10 @@ export default {
                 toTaskIndex
             })
         },
-        moveColumn(e, toColumnIndex) {
-            const fromColumnIndex = e.dataTransfer.getData('from-column-index')
-
+        moveColumn({fromColumnIndex}) {
             this.$store.commit('MOVE_COLUMN', {
                 fromColumnIndex,
-                toColumnIndex
+                toColumnIndex: this.columnIndex
             })
         },
     }
