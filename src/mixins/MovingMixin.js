@@ -14,12 +14,11 @@ export default {
         }
     },
     methods: {
-        moveTaskOrColumn(e, toTasks, toColumnIndex, toTaskIndex) {
-            const type = e.dataTransfer.getData('type')
-            if (type === 'task') {
-                this.moveTask(e, toTasks, toTaskIndex !== undefined ? toTaskIndex : toTasks.length)
+        moveTaskOrColumn(transferData) {
+            if (transferData.type === 'task') {
+                this.moveTask(transferData)
             } else {
-                this.moveColumn(e, toColumnIndex)
+                this.moveColumn(transferData)
             }
         },
         moveTask(e, toTasks, toTaskIndex) {
