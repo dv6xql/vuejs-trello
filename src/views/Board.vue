@@ -36,24 +36,23 @@
                 isTaskOpen: computed(() => context.root.$route.name === 'task')
             })
 
-            return {state}
+            function close() {
+                context.root.$router.push({name: 'board'})
+            }
+
+            function createColumn() {
+                context.root.$store.commit('CREATE_COLUMN', {
+                    name: state.newColumnName
+                })
+
+                state.newColumnName = ''
+            }
+
+            return {state, close, createColumn}
         },
         computed: {
             ...mapState(['board']),
         },
-        methods: {
-            close() {
-                this.$router.push({name: 'board'})
-            },
-            createColumn() {
-                this.$store.commit('CREATE_COLUMN', {
-                    name: this.newColumnName
-                })
-
-                this.newColumnName = ''
-            },
-
-        }
     }
 </script>
 
