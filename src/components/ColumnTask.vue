@@ -1,24 +1,22 @@
 <template>
-    <div class="task"
-         @click="goToTask(task)"
-         draggable
-         @dragstart="pickupTask($event, taskIndex, columnIndex)"
-         @dragover.prevent
-         @dragenter.prevent
-         @drop.stop="moveTaskOrColumn($event, column.tasks, columnIndex, taskIndex)">
-
-        <span class="w-full flex-no-shrink font-bold">{{ task.name }}</span>
-        <p class="w-full flex-no-shrink mt-1 text-sm" v-if="task.description">
-            {{ task.description }}
-        </p>
-    </div>
+    <app-drop @drop="moveTaskOrColumn()">
+        <app-drag class="task" :transferData="getTransferData(columnIndex, taskIndex)" @click="goToTask(task)">
+            <span class="w-full flex-no-shrink font-bold">{{ task.name }}</span>
+            <p class="w-full flex-no-shrink mt-1 text-sm" v-if="task.description">
+                {{ task.description }}
+            </p>
+        </app-drag>
+    </app-drop>
 </template>
 
 <script>
     import MovingMixin from "../mixins/MovingMixin"
+    import AppDrag from "./AppDrag"
+    import AppDrop from "./AppDrop";
 
     export default {
         name: "ColumnTask",
+        components: {AppDrag, AppDrop},
         mixins: [MovingMixin],
         props: {
             task: {
@@ -31,16 +29,15 @@
             },
         },
         methods: {
+            getTransferData(columnIndex, taskIndex) {
+                return {
+                    type: "task",
+                    fromColumnIndex: columnIndex,
+                    fromTaskIndex: taskIndex,
+                }
+            },
             goToTask(task) {
                 this.$router.push({name: 'task', params: {id: task.id}})
-            },
-            pickupTask(e, taskIndex, fromColumnIndex) {
-                e.dataTransfer.effectAllowed = 'move'
-                e.dataTransfer.dropEffect = 'move'
-
-                e.dataTransfer.setData('from-task-index', taskIndex)
-                e.dataTransfer.setData('from-column-index', fromColumnIndex)
-                e.dataTransfer.setData('type', 'task')
             },
         }
     }

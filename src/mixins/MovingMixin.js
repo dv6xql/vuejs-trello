@@ -21,16 +21,14 @@ export default {
                 this.moveColumn(transferData)
             }
         },
-        moveTask(e, toTasks, toTaskIndex) {
-            const fromColumnIndex = e.dataTransfer.getData('from-column-index')
+        moveTask({fromColumnIndex, fromTaskIndex}) {
             const fromTasks = this.board.columns[fromColumnIndex].tasks
-            const fromTaskIndex = e.dataTransfer.getData('from-task-index')
 
             this.$store.commit('MOVE_TASK', {
                 fromTasks,
                 fromTaskIndex,
-                toTasks,
-                toTaskIndex
+                toTasks: this.column.tasks,
+                toTaskIndex: this.taskIndex
             })
         },
         moveColumn({fromColumnIndex}) {
