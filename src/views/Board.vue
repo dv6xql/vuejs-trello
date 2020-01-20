@@ -10,7 +10,7 @@
             />
 
             <div class="column flex">
-                <input type="text" class="p-2 mr-2 flex-grow" placeholder="New Column Name" v-model="newColumnName"
+                <input type="text" class="p-2 mr-2 flex-grow" placeholder="New Column Name" v-model="state.newColumnName"
                        @keyup.enter="createColumn()">
             </div>
         </div>
@@ -22,6 +22,7 @@
 </template>
 
 <script>
+    import {reactive, computed} from '@vue/composition-api'
     import {mapState} from 'vuex'
     import BoardColumn from "../components/BoardColumn"
 
@@ -29,10 +30,12 @@
         components: {
             BoardColumn
         },
-        data() {
-            return {
-                newColumnName: ''
-            }
+        setup() {
+            const state = reactive({
+                newColumnName: '',
+            })
+
+            return {state}
         },
         computed: {
             ...mapState(['board']),
