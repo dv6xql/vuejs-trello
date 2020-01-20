@@ -1,5 +1,8 @@
 <template>
-    <div @dragstart.prevent="onDrag">
+    <div draggable="true"
+            @dragstart.prevent="onDrag"
+            @dragover.prevent
+            @dragenter.prevent>
         <slot/>
     </div>
 </template>
@@ -7,9 +10,15 @@
 <script>
     export default {
         name: "AppDrag",
+        props: {
+            transferData: {
+                type: Object,
+                required: true,
+            }
+        },
         methods: {
             onDrag(e) {
-                
+                e.dataTransfer.setData("payload", JSON.stringify(this.transferData))
             }
         }
     }
