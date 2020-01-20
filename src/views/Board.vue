@@ -6,6 +6,7 @@
                     :key="$columnIndex"
                     :column="column"
                     :columnIndex="$columnIndex"
+                    :board="board"
             />
 
             <div class="column flex">

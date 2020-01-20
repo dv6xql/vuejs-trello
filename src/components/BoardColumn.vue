@@ -43,6 +43,10 @@
             columnIndex: {
                 type: Number,
                 required: true
+            },
+            board: {
+                type: Object,
+                required: true
             }
         },
         methods: {
