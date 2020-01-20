@@ -1,6 +1,6 @@
 <template>
     <div draggable="true"
-            @dragstart.prevent="onDrag"
+            @dragstart.self="onDrag"
             @dragover.prevent
             @dragenter.prevent>
         <slot/>
