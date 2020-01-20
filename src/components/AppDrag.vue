@@ -18,6 +18,8 @@
         },
         methods: {
             onDrag(e) {
+                e.dataTransfer.effectAllowed = 'move'
+                e.dataTransfer.dropEffect = 'move'
                 e.dataTransfer.setData("payload", JSON.stringify(this.transferData))
             }
         }
